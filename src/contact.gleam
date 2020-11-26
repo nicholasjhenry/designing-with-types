@@ -8,20 +8,25 @@ pub type PersonalName {
   )
 }
 
+pub type EmailAddress { EmailAddress(String) }
+
 pub type EmailContactInfo {
   EmailContactInfo(
-    email_address: String,
+    email_address: EmailAddress,
     is_email_verified: Bool
   )
 }
+
+pub type ZipCode { ZipCode(String) }
+pub type StateCode { StateCode(String) }
 
 pub type PostalAddress {
   PostalAddress(
     address1: String,
     address2: String,
     city: String,
-    state: String,
-    zip: String
+    state: StateCode,
+    zip: ZipCode
   )
 }
 
