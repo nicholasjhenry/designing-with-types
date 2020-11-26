@@ -1,7 +1,6 @@
-# designing_with_types
+# Designing with Types (a port from F# to Gleam)
 
-A Gleam program
-
+https://fsharpforfunandprofit.com/posts/designing-with-types-intro/#series-toc
 
 ## Quick start
 
@@ -16,14 +15,3 @@ rebar3 eunit
 rebar3 shell
 ```
 
-
-## Installation
-
-If [available in Hex](https://www.rebar3.org/docs/dependencies#section-declaring-dependencies)
-this package can be installed by adding `designing_with_types` to your `rebar.config` dependencies:
-
-```erlang
-{deps, [
-    designing_with_types
-]}.
-```
