@@ -1,9 +1,12 @@
-import core
+import gleam/list
+import gleam/option
+import gleam/regex
+import gleam/string
 
 pub type PersonalName {
   PersonalName(
     first_name: String,
-    middle_initial: core.Option(String),
+    middle_initial: option.Option(String),
     last_name: String
   )
 }
@@ -43,4 +46,21 @@ pub type Contact {
     email_contact_info: EmailContactInfo,
     postal_contact_info: PostalContactInfo
   )
+}
+
+pub fn create_email_address(s: String) -> option.Option(EmailAddress) {
+  let Ok(re) = regex.from_string("^.+$")
+  case regex.check(with: re, content: s) {
+    True -> option.Some(EmailAddress(s))
+    False -> option.None
+  }
+}
+
+pub fn create_state_code(s: String) -> option.Option(StateCode) {
+  let s = string.uppercase(s)
+  let state_codes = ["AB", "CA", "NY"]
+  case list.any(state_codes, fn(sc) {sc == s}) {
+    True -> option.Some(StateCode("CA"))
+    False -> option.None
+  }
 }
