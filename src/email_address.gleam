@@ -5,15 +5,33 @@ pub opaque type T {
   EmailAddress(String)
 }
 
-pub fn create(s: String) -> Option(T) {
+// create with continuation
+pub fn create_with_cont(success, failure, s: String) {
   let Ok(re) = regex.from_string("^.+$")
   case regex.check(with: re, content: s) {
-    True -> Some(EmailAddress(s))
-    False -> None
+    True -> success(EmailAddress(s))
+    False -> failure("Email address must contain an @ sign")
   }
 }
 
-pub fn value(e: T) -> String {
+// create directly
+pub fn create(s: String) -> Option(T) {
+  let success = fn(e) { Some(e) }
+  let failure = fn(_msg) { None }
+  create_with_cont(success, failure, s)
+}
+
+pub fn id(value) {
+  value
+}
+
+// unwrap directly with continuation
+pub fn apply(e: T, f) {
   let EmailAddress(e) = e
-  e
+  f(e)
+}
+
+// unwrap directly
+pub fn value(e: T) -> String {
+  apply(e, id)
 }
