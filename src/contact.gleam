@@ -48,11 +48,30 @@ pub type Contact {
   )
 }
 
+// Version: Option
 pub fn create_email_address(s: String) -> option.Option(EmailAddress) {
   let Ok(re) = regex.from_string("^.+$")
   case regex.check(with: re, content: s) {
     True -> option.Some(EmailAddress(s))
     False -> option.None
+  }
+}
+
+// Version: Result
+pub fn create_email_address2(s: String) -> Result(EmailAddress, String) {
+  let Ok(re) = regex.from_string("^.+$")
+  case regex.check(with: re, content: s) {
+    True -> Ok(EmailAddress(s))
+    False -> Error("Email address must contain an @ sign")
+  }
+}
+
+// Version: Continuations
+pub fn create_email_address_with_continuations(success, failure, s: String) {
+  let Ok(re) = regex.from_string("^.+$")
+  case regex.check(with: re, content: s) {
+    True -> success(EmailAddress(s))
+    False -> failure("Email address must contain an @ sign")
   }
 }
 

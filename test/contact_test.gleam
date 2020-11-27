@@ -40,6 +40,24 @@ pub fn create_email_address_test() {
   contact.create_email_address("") |> should.equal(option.None)
 }
 
+pub fn create_email_address2_test() {
+  let expected_email_address = Ok(contact.EmailAddress("bob@example.com"))
+  contact.create_email_address2("bob@example.com") |> should.equal(expected_email_address)
+
+  contact.create_email_address2("") |> should.equal(Error("Email address must contain an @ sign"))
+}
+
+pub fn create_email_address_with_continuations_test() {
+  let expected_email_address = contact.EmailAddress("bob@example.com")
+  let success_handler = fn(email_address) { email_address |> should.equal(expected_email_address) }
+  let failure_handler = fn(msg) { msg |> should.equal("Email address must contain an @ sign") }
+
+  let email_constructor = contact.create_email_address_with_continuations(success_handler, failure_handler, _)
+
+  email_constructor("bob@example.com")
+  email_constructor("")
+}
+
 pub fn create_state_code_test() {
   let expected_state_code = option.Some(contact.StateCode("CA"))
   contact.create_state_code("CA") |> should.equal(expected_state_code)
